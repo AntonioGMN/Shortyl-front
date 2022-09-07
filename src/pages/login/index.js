@@ -1,15 +1,64 @@
 import Container from "../../components/center";
 import { Form, Button, Line } from "../../components/form";
+import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import * as api from "../../service/apiService.js";
+import { useAuth } from "../../contexts/AuthContext";
 
 export default function LoginPage() {
+	const navegate = useNavigate();
+	const { persistLogin } = useAuth();
+	const [formData, setFormData] = useState({
+		email: "",
+		password: "",
+	});
+
+	function handlerInput(e) {
+		setFormData({ ...formData, [e.target.name]: e.target.value });
+	}
+
+	async function hadlerSubmit(e) {
+		e.preventDefault();
+
+		const user = {
+			email: formData.email,
+			password: formData.password,
+		};
+
+		try {
+			const response = await api.login(user);
+			const token = response.data;
+			console.log(token);
+			persistLogin(token);
+			navegate("/home");
+		} catch (error) {
+			console.log(error);
+		}
+
+		return;
+	}
 	return (
 		<Container>
-			<Form>
-				<input></input>
-				<input></input>
-				<Button>Entrar</Button>
+			<Form onSubmit={(e) => hadlerSubmit(e)}>
+				<input
+					placeholder="Email"
+					type="email"
+					name="email"
+					value={formData.email}
+					onChange={(e) => handlerInput(e)}
+				/>
+				<input
+					placeholder="Senha"
+					type="password"
+					name="password"
+					value={formData.password}
+					onChange={(e) => handlerInput(e)}
+				/>
+				<Button type="submit">Entrar</Button>
 				<Line />
-				<Button>Cadastre-se</Button>
+				<Button type="text" onClick={() => navegate("/signUp")}>
+					Cadastre-se
+				</Button>
 			</Form>
 		</Container>
 	);
