@@ -6,6 +6,10 @@ const Container = styled.main`
 	justify-content: center;
 	align-items: center;
 	min-height: 100vh;
+
+	@media (max-width: 700px) {
+		width: 100%;
+	}
 `;
 
 export default Container;

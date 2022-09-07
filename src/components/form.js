@@ -8,7 +8,6 @@ export const Form = styled.form`
 	justify-content: center;
 	align-items: center;
 	gap: 12px;
-	margin-bottom: 32px;
 
 	@media (max-width: 700px) {
 		width: 100%;

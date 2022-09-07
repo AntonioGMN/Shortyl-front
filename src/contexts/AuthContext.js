@@ -4,30 +4,24 @@ import { useState } from "react";
 const AuthContext = createContext();
 
 export default function AuthProvider({ children }) {
-  const persistedToken = JSON.parse(localStorage.getItem("token"));
-  const [token, setToken] = useState(persistedToken);
+	const persistedToken = JSON.parse(localStorage.getItem("token"));
+	const [token, setToken] = useState(persistedToken);
 
-  function persistLogin(novoToken) {
-    setToken(novoToken);
-    localStorage.setItem("token", JSON.stringify(novoToken));
-  }
+	function persistLogin(novoToken) {
+		setToken(novoToken);
+		localStorage.setItem("token", JSON.stringify(novoToken));
+	}
 
-  async function logout() {
-    localStorage.clear();
-    window.location.replace("/login");
-  }
+	async function logout() {
+		localStorage.clear();
+		window.location.replace("/");
+	}
 
-  // function vadadateToken() {
-  //   const persistedToken = JSON.parse(localStorage.getItem("token"));
-  //   if (!persistedToken) window.location.replace("/login");
-  // }
-
-  return (
-    <AuthContext.Provider value={{ token, persistLogin, logout }}>
-      {children}
-    </AuthContext.Provider>
-  );
+	return (
+		<AuthContext.Provider value={{ token, persistLogin, logout }}>
+			{children}
+		</AuthContext.Provider>
+	);
 }
 
 export const useAuth = () => useContext(AuthContext);
-
