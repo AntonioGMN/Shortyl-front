@@ -43,7 +43,7 @@ const UrlFomr = styled.form`
 		text-align: center;
 		color: #ffffff;
 
-		background: #5d9040;
+		background: #04aa6d;
 		border-radius: 12px;
 	}
 
@@ -51,6 +51,7 @@ const UrlFomr = styled.form`
 		width: 100%;
 		flex-direction: column;
 		gap: 10px;
+		margin-top: 50px;
 
 		button {
 			width: 100%;

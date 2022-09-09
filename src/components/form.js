@@ -51,7 +51,7 @@ export const Button = styled.button`
 	color: #ffffff;
 
 	padding: 16px;
-	background: #5d9040;
+	background: #04aa6d;
 	border-radius: 12px;
 `;
 

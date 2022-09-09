@@ -1,15 +1,23 @@
 import Container from "../../components/center";
 import { Form, Button, Line } from "../../components/form";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import * as api from "../../service/apiService.js";
+import { useAuth } from "../../contexts/AuthContext";
 
 export default function SignUpPage() {
 	const navegate = useNavigate();
+	const { token } = useAuth();
 	const [formData, setFormData] = useState({
+		name: "",
 		email: "",
 		password: "",
+		confirmPassword: "",
 	});
+
+	useEffect(() => {
+		if (token) navegate("home");
+	}, [token, navegate]);
 
 	function handlerInput(e) {
 		setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -24,13 +32,13 @@ export default function SignUpPage() {
 		}
 
 		const user = {
+			name: formData.name,
 			email: formData.email,
 			password: formData.password,
 		};
 
 		try {
-			const resonse = await api.signUp(user);
-			console.log(resonse);
+			await api.signUp(user);
 			navegate("/");
 		} catch (error) {
 			console.log(error);

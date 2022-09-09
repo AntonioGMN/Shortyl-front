@@ -1,34 +1,35 @@
 import { useAuth } from "../../contexts/AuthContext";
 import UrlFomr from "../../components/UrlInput";
 import { useState } from "react";
+import * as api from "../../service/urlApi";
 
-export default function ShortlyUrl() {
+export default function ShortlyUrl({ setUrls }) {
 	const { token } = useAuth();
-	const [url, setUrl] = useState("");
-
-	function handlerInput(e) {
-		seturl({ ...url, [e.target.name]: e.target.value });
-	}
+	const [link, setLink] = useState("");
 
 	async function hadlerSubmit(e) {
 		e.preventDefault();
 
 		try {
-			const response = await api.login(user);
-			const token = response.data;
-			console.log(token);
-			persistLogin(token);
-			navegate("/home");
+			await api.shortlyUrl({ url: link }, token);
+			window.location.reload();
 		} catch (error) {
 			console.log(error);
 		}
 
 		return;
 	}
+
 	return (
-		<UrlFomr>
-			<input placeholder="Entre com sua url" />
-			<button>Encurte seu Link</button>
+		<UrlFomr onSubmit={(e) => hadlerSubmit(e)}>
+			<input
+				placeholder="Entre com sua url"
+				type="url"
+				name="url"
+				value={link}
+				onChange={(e) => setLink(e.target.value)}
+			/>
+			<button type="submit">Encurte seu Link</button>
 		</UrlFomr>
 	);
 }

@@ -1,17 +1,22 @@
 import Container from "../../components/center";
 import { Form, Button, Line } from "../../components/form";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
-import * as api from "../../service/apiService.js";
+import { useState, useEffect } from "react";
 import { useAuth } from "../../contexts/AuthContext";
+import * as api from "../../service/apiService.js";
 
 export default function LoginPage() {
+	const { token } = useAuth();
 	const navegate = useNavigate();
 	const { persistLogin } = useAuth();
 	const [formData, setFormData] = useState({
 		email: "",
 		password: "",
 	});
+
+	useEffect(() => {
+		if (token) navegate("home");
+	}, [token, navegate]);
 
 	function handlerInput(e) {
 		setFormData({ ...formData, [e.target.name]: e.target.value });
